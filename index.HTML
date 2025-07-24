@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedStone Editor</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <script src="index.js"></script>
+
+    <div class="title-decoration"></div>
+
+    <!-- 顶部标题栏 -->
+    <div class="header">
+        <div class="logo">
+            <h1>RedStone Editor</h1>
+        </div>
+        <div class="controls">
+            <!-- 夜间模式按钮 -->
+            <button class="btn" id="theme-toggle">
+                <i class="fas fa-moon"></i> <span>夜间模式</span>
+            </button>
+            <button class="btn" id="clear-btn">
+                <i class="fas fa-broom"></i> <span>清空画布</span>
+            </button>
+            <button class="btn" id="save-btn">
+                <i class="fas fa-save"></i> <span>保存设计</span>
+            </button>
+            <button class="btn" id="help-btn">
+                <i class="fas fa-question-circle"></i> <span>帮助</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="main-container">
+        <!-- 左侧组件面板 -->
+        <div id="components-panel">
+            <div class="panel-header">
+                <h2><i class="fas fa-cubes"></i> 组件库</h2>
+            </div>
+
+            <input type="text" id="component-search" placeholder="搜索组件...">
+
+            <div id="components-list">
+                <!-- 组件分类将在这里动态生成 -->
+            </div>
+        </div>
+
+        <!-- 右侧画布区域 -->
+        <div id="canvas-container">
+            <div id="p5-canvas"></div>
+            <div class="grid-overlay"></div>
+
+            <!-- 缩放控制按钮 -->
+            <div class="zoom-controls">
+                <button class="zoom-btn" id="zoom-out" title="缩小">
+                    <i class="fas fa-search-minus"></i>
+                </button>
+                <button class="zoom-btn" id="zoom-reset" title="重置缩放">
+                    <i class="fas fa-sync-alt"></i> <span>100%</span>
+                </button>
+                <button class="zoom-btn" id="zoom-in" title="放大">
+                    <i class="fas fa-search-plus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-item" id="block-count">
+            <i class="fas fa-cube"></i> <span>已放置: 0 个组件</span>
+        </div>
+        <div class="status-item" id="current-component">
+            <i class="fas fa-mouse-pointer"></i> <span>当前: 空气</span>
+        </div>
+        <div class="status-item" id="cursor-position">
+            <i class="fas fa-crosshairs"></i> <span>坐标: 0, 0</span>
+        </div>
+        <div class="status-item" id="canvas-scale">
+            <i class="fas fa-search"></i> <span>缩放: 100%</span>
+        </div>
+        <div class="status-item" id="theme-display">
+            <i class="fas fa-adjust"></i> <span>模式: 日间模式</span>
+        </div>
+    </div>
+</body>
+
+</html>
