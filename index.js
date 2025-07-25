@@ -58,9 +58,13 @@ const componentNames = {
     'soulsand': '灵魂沙'
 };
 
-// 全局变量
+// Global varibles and constants
 const imgRoot = 'https://raw.githubusercontent.com/11-90-an/rseditor/main/assets/';
 const cols = 200, rows = 200, tileSize = 30;
+const lightModeBgColor = [45, 52, 64];
+const lightModeGridColor = [90, 100, 120];
+const nightModeBgColor = [247, 249, 252];
+const nightModeGridColor = [209, 219, 230];
 let grid = new Array(cols * rows).fill('air');
 let selectedComponent = 'air';
 let canvasScale = 1.0; // 初始缩放100%
@@ -84,13 +88,10 @@ function setup() {
     offsetX = (windowWidth - canvasWidth) / 2;
     offsetY = (windowHeight - canvasHeight) / 2;
 
-    // 加载组件
     loadComponents();
 
-    // 添加事件监听器
     setupEventListeners();
 
-    // 初始化状态
     updateStatusBar();
 }
 
@@ -232,9 +233,7 @@ function selectComponent(name) {
     updateStatusBar();
 }
 
-// 画布鼠标事件处理
 function canvasMousePressed(event) {
-    // 中键拖动处理
     // ++ so why the fuck the js doesn't provide a enum
     if (event.button === 1) { // 中键
         isDragging = true;
@@ -243,29 +242,24 @@ function canvasMousePressed(event) {
         return false; // 防止默认行为
     }
 
-    // 计算网格坐标
     const gridX = Math.floor((mouseX - offsetX) / (tileSize * canvasScale));
     const gridY = Math.floor((mouseY - offsetY) / (tileSize * canvasScale));
 
-    // 检查是否在网格内
     if (gridX >= 0 && gridX < cols && gridY >= 0 && gridY < rows) {
         const index = gridY * cols + gridX;
 
-        // 放置或移除组件
         if (grid[index] === selectedComponent) {
             grid[index] = 'air'; // 移除
         } else {
             grid[index] = selectedComponent; // 放置
         }
 
-        // 更新状态栏
         updateStatusBar();
     }
 
     return false;
 }
 
-// 鼠标拖动处理
 function mouseDragged() {
     if (isDragging) {
         offsetX = mouseX - dragStartX;
@@ -277,34 +271,25 @@ function mouseReleased() {
     isDragging = false;
 }
 
-// 更新缩放显示
 function updateZoomDisplay() {
-    document.querySelector('#canvas-scale span').textContent =
-        `${Math.round(canvasScale * 100)}%`;
+    document.querySelector('#canvas-scale span').textContent = `${Math.round(canvasScale * 100)}%`;
     document.querySelector('#zoom-reset span').textContent = `${Math.round(canvasScale * 100)}%`;
 }
 
-// 更新状态栏
 function updateStatusBar() {
-    // 计算已放置组件数量
     const placedCount = grid.filter(comp => comp !== 'air').length;
     document.querySelector('#block-count span').textContent = `已放置: ${placedCount} 个组件`;
 
-    // 更新鼠标位置
     updateCursorPosition();
 }
 
-// 更新光标位置
 function updateCursorPosition() {
     const gridX = Math.floor((mouseX - offsetX) / (tileSize * canvasScale));
     const gridY = Math.floor((mouseY - offsetY) / (tileSize * canvasScale));
-
-    if (gridX >= 0 && gridX < cols && gridY >= 0 && gridY < rows) {
-        document.querySelector('#cursor-position span').textContent =
-            `坐标: ${gridX}, ${gridY}`;
-    } else {
-        document.querySelector('#cursor-position span').textContent = `坐标: 0, 0`;
-    }
+    document.querySelector("#cursor-position span").textContent =
+        (gridX >= 0 && gridX < cols && gridY >= 0 && gridY < rows)
+            ? `坐标: ${gridX}, ${gridY}`
+            : "坐标: 0, 0";
 }
 
 // 设置昼夜模式切换
@@ -326,16 +311,16 @@ function setupDayNightToggle() {
             themeIcon.className = 'fas fa-sun';
             themeText.textContent = '日间模式';
             themeDisplay.textContent = '夜间模式';
-            bgColor = [45, 52, 64]; // 深灰色背景
-            gridLineColor = [90, 100, 120]; // 深灰色网格线
+            bgColor = lightModeBgColor; // 深灰色背景
+            gridLineColor = lightModeGridColor; // 深灰色网格线
         } else {
             // 日间模式
             document.body.classList.remove('theme-dark');
             themeIcon.className = 'fas fa-moon';
             themeText.textContent = '夜间模式';
             themeDisplay.textContent = '日间模式';
-            bgColor = [247, 249, 252]; // 浅色背景
-            gridLineColor = [209, 219, 230]; // 浅色网格线
+            bgColor = nightModeBgColor; // 浅色背景
+            gridLineColor = nightModeGridColor; // 浅色网格线
         }
     });
 }
